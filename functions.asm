@@ -47,6 +47,17 @@ _println:
     pop     rax         ; Pop the newline character from the stack
     ret                 ; Return
 
+_read:
+    push    rdi         ; Push the value of the rdi register onto the stack (saving it).
+    push    rax         ; Push the value of the rax register onto the stack (saving it).
+    mov     rax, 0      ; Set the value of the rax register to 0, indicating syscall number for sys_read.
+    mov     rdi, 0      ; Set the value of the rdi register to 0, which is the file descriptor for stdin (standard input).
+    syscall             ; Invoke the syscall to read input from stdin.
+
+    pop     rax         ; Pop the previously saved value of rax back into the rax register.
+    pop     rdi         ; Pop the previously saved value of rdi back into the rdi register.
+    ret                 ; Return from the function.
+
 _exit:
     mov     rax,    60  ; Set rax to 60 (syscall number for sys_exit)
     mov     rdi,    0   ; Set rdi to 0 (exit status)
