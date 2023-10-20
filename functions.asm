@@ -47,6 +47,49 @@ _println:
     pop     rax         ; Pop the newline character from the stack
     ret                 ; Return
 
+_iprint:
+    push    rcx         ; Preserve rcx
+    push    rdx         ; Preserve rdx
+    push    rsi         ; Preserve rsi
+    push    rax         ; Preserve rax (return value)
+    mov     rcx,    0
+
+_divideLoop:
+    inc     rcx
+    mov     rdx,    0
+    mov     rsi,    10
+    idiv    rsi
+    add     rdx,    48
+    push    rdx
+    cmp     rax,    0
+    jnz     _divideLoop
+
+_iprintLoop:
+    dec     rcx
+    mov     rax,    rsp
+    call    _print
+    pop     rax
+    cmp     rcx,    0
+    jnz     _iprintLoop
+    
+    pop     rax
+    pop     rsi
+    pop     rdx
+    pop     rcx
+    ret
+
+_iprintln:
+    call    _iprint      ; Call the _print function to print the string
+
+    push    rax         ; Preserve rax
+    mov     rax,    10  ; Set rax to 10 (ASCII code for newline character)
+    push    rax         ; Push the newline character onto the stack
+    mov     rax,    rsp ; Set rax to the stack pointer (address of the newline character)
+    call    _print      ; Call the _print function to print the newline character
+    pop     rax         ; Restore rax
+    pop     rax         ; Pop the newline character from the stack
+    ret                 ; Return
+
 _read:
     push    rdi         ; Push the value of the rdi register onto the stack (saving it).
     push    rax         ; Push the value of the rax register onto the stack (saving it).
