@@ -2,7 +2,7 @@ AS=nasm
 ASFLAGS=-f elf64
 LD=ld
 
-all: addiction hello_world print_args functions_use_case input_scan print_digits itoa
+all: addiction hello_world print_args functions_use_case input_scan print_digits itoa sum_args
 
 addiction: addiction.o
 	$(LD) $< -o $@
@@ -25,10 +25,13 @@ print_digits: print_digits.o
 itoa: itoa.o
 	$(LD) $< -o $@
 
+sum_args: sum_args.o
+	$(LD) $< -o $@
+
 %.o: %.asm
 	$(AS) $(ASFLAGS) $<
 
 clean:
-	rm -f *.o addiction hello_world print_args functions_use_case
+	rm -f *.o addiction hello_world print_args functions_use_case input_scan print_digits itoa sum_args
 
 .PHONY: all clean
