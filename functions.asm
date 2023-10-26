@@ -103,6 +103,9 @@ _read:
 
 _exit:
     mov     rax,    60  ; Set rax to 60 (syscall number for sys_exit)
+    cmp     rdi,    0
+    jnz     _custom_error
     mov     rdi,    0   ; Set rdi to 0 (exit status)
+_custom_error:
     syscall             ; Call syscall to exit the program
     ret                 ; Return
